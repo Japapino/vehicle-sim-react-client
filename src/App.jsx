@@ -148,34 +148,32 @@ function App() {
 
     return result; 
   }
-
-
   
-
   async function getMakes(year) {
-    // await axios
-    //   .get(`https://localhost:3000/vehicles/${year}`, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     var test_data = response.data.data;
-    //     setMake(
-    //       test_data.map((x) => {
-    //         return {
-    //           product_name: `${x.vehicle_make}`,
-    //         };
-    //       })
-    //     );
-    //     // setLoadingData(false);
-    //   });
-
+    console.log('year: ', year); 
+    await axios
+      .get(`http://localhost:3000/vehicles/2004`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        var test_data = response.data.data;
+        setMake(
+          test_data.map((x) => {
+            return {
+              product_name: `${x.vehicle_make}`,
+            };
+          })
+        );
+        // setLoadingData(false);
+      });
     setMakes(convertResponse(mockResult)); 
   }
 
   useEffect(() => {
-    getMakes(year);
+    console.log('get makes');
+    // getMakes(year);
     // if (loadingData) {
     //     getProducts();
     // }

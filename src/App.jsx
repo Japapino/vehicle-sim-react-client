@@ -6,7 +6,9 @@ import { Container, Select, MenuItem } from "@mui/material";
 function App() {
   const [year, setYear] = useState("");
   const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
   const [makes, setMakes] = useState([]);
+  const [models, setModels] = useState([]);
 
   const years = Array.from({ length: 33 }, (_, i) => (1992 + i).toString());
 
@@ -18,42 +20,82 @@ function App() {
     setMake(e.target.value);
   };
 
-  const convertResponse = (resp) => {
-    let result = []; 
-    
-    resp.forEach((i) => {
-      result.push(i.vehicle_make); 
-    }); 
+  const handleModelChange = (e) => {
+    setModel(e.target.value);
+  };
 
-    return result; 
-  }
-  
+  const convertMakeResponse = (resp) => {
+    let result = [];
+
+    resp.forEach((i) => {
+      result.push(i.vehicle_make);
+    });
+
+    return result;
+  };
+
+  const convertModelResponse = (resp) => {
+    let result = [];
+
+    resp.forEach((i) => {
+      result.push(i.vehicle_model);
+    });
+
+    return result;
+  };
+
   async function getMakes(year) {
     try {
-    await axios
-      .get(`http://localhost:3000/vehicles/${year}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
+      await axios
+        .get(`http://localhost:3000/vehicles/${year}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          const makesArray = convertMakeResponse(response.data);
 
-        const makesArray = convertResponse(response.data); 
-        console.log('result: ', makesArray); 
-
-        setMakes(makesArray);
-        // setLoadingData(false);
-      });
-
+          setMakes(makesArray);
+          // setLoadingData(false);
+        });
     } catch (error) {
-      console.error('Error fetching vehicle makes:', error);
+      console.error("Error fetching vehicle makes:", error);
+    }
+  }
+
+  async function getModels(year, make) {
+
+    try {
+      await axios
+        .get(`http://localhost:3000/vehicles/${year}/${make}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log('HERE')
+          const modelsArray = convertModelResponse(response.data);
+          console.log('modelsArray: ', modelsArray);
+          setModels(modelsArray); 
+        });
+    } catch (error) {
+      console.error("Error fetching vehicle makes:", error);
     }
   }
 
   useEffect(() => {
-    console.log('get makes');
-    getMakes(year);
-}, [year]);
+    console.log("get makes");
+    if (year) {
+      getMakes(year);
+    }
+  }, [year]);
+
+  useEffect(() => {
+    console.log("get models");
+    if (make) {
+      getModels(year, make);
+    }
+  }, [make]);
 
   return (
     <Container
@@ -90,6 +132,22 @@ function App() {
           onChange={handleMakeChange}
         >
           {makes.map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </Select>
+      )}
+      {make && (
+        <Select
+          sx={{ width: "200px", height: "100px" }}
+          labelId="select-box"
+          id="select-box-1"
+          value={model}
+          label="Model"
+          onChange={handleModelChange}
+        >
+          {models.map((option) => (
             <MenuItem key={option} value={option}>
               {option}
             </MenuItem>

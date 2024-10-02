@@ -7,7 +7,8 @@
     "start": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-css": "sass --watch styles.scss styles.css"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -16,6 +17,7 @@
     "axios": "^1.7.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sass": "^1.79.4",
     "vehicle-sim-react-client": "file:"
   },
   "devDependencies": {

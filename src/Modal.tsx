@@ -7,7 +7,9 @@ interface MakeResponse {
 }
 
 interface ModelResponse {
-  vehicle_model: string 
+  vehicles: [
+    {vehicle_model: string }
+  ]
 }
 
 function Modal() {
@@ -19,16 +21,16 @@ function Modal() {
 
   const years = Array.from({ length: 33 }, (_, i) => (1992 + i).toString());
 
-  const handleYearChange = (e) => {
-    setYear(e.target.value);
+  const handleYearChange = (year) => {
+    setYear(year);
   };
 
-  const handleMakeChange = (e) => {
-    setMake(e.target.value);
+  const handleMakeChange = (make) => {
+    setMake(make);
   };
 
-  const handleModelChange = (e) => {
-    setModel(e.target.value);
+  const handleModelChange = (model) => {
+    setModel(model);
   };
 
   const convertMakeResponse = (resp: MakeResponse[]): string[] => {
@@ -44,7 +46,7 @@ function Modal() {
   const convertModelResponse = (resp: ModelResponse[]): string[] => {
     let result: string[] = [];
 
-    resp.forEach((i) => {
+    resp.vehicles.forEach((i) => {
       result.push(i.vehicle_model);
     });
 
@@ -79,7 +81,7 @@ function Modal() {
           },
         })
         .then((response) => {
-          const modelsArray = convertModelResponse(response.data);
+          const modelsArray: string[] = convertModelResponse(response.data);
           setModelList(modelsArray);
         });
     } catch (error) {
@@ -100,39 +102,39 @@ function Modal() {
       getModels(year, make);
     }
   }, [make]);
-
+// TODO: FIX padding for input fields and submit
   return (
-      <div className="Modal">
-        <form onSubmit={() => {}} className="ModalForm">
+
+        <form onSubmit={() => {}} className="form">
           <InputField
             id="name"
-            className="form-field animation a1"
+            className="form-field animation a3"
             dataType="vehicleYear"
             placeholder="Year"
             dropDownOptions={years}
             onChange={handleYearChange}
           />
-          <InputField
+          {year && (<InputField
             id="name"
             className="form-field animation a2"
             dataType="vehicleMake"
             placeholder="Make"
             dropDownOptions={makeList}
             onChange={handleMakeChange}
-          />
-          <InputField
+          />)}
+          {make && (<InputField
             id="name"
             className="form-field animation a3"
             dataType="vehicleModel"
             placeholder="Model"
             dropDownOptions={modelList}
             onChange={handleModelChange}
-          />
-          <button>
-            Submit <i className="fa fa-fw fa-chevron-right"></i>
-          </button>
+          />)}
+          {model && (<button className="animation a6">
+            Submit
+          </button>)}
         </form>
-      </div>
+
   );
 }
 

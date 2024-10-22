@@ -21,18 +21,6 @@ function Modal() {
 
   const years = Array.from({ length: 33 }, (_, i) => (1992 + i).toString());
 
-  const handleYearChange = (year) => {
-    setYear(year);
-  };
-
-  const handleMakeChange = (make) => {
-    setMake(make);
-  };
-
-  const handleModelChange = (model) => {
-    setModel(model);
-  };
-
   const convertMakeResponse = (resp: MakeResponse[]): string[] => {
     let result: string[] = [];
 
@@ -63,9 +51,7 @@ function Modal() {
         })
         .then((response) => {
           const makesArray: string[] = convertMakeResponse(response.data);
-
           setMakeList(makesArray);
-          // setLoadingData(false);
         });
     } catch (error) {
       console.error("Error fetching vehicle makes:", error);
@@ -89,22 +75,37 @@ function Modal() {
     }
   }
 
+  const submit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios
+        .get(`http://localhost:3000/estimate/${year}/${make}/${model}`, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log('response: ', response); 
+        });
+    } catch (error) {
+      console.error("Error fetching vehicle estimate:", error);
+    }
+  };
+
   useEffect(() => {
-    console.log("get makes");
     if (year) {
       getMakes(year);
     }
   }, [year]);
 
   useEffect(() => {
-    console.log("get models");
     if (make) {
       getModels(year, make);
     }
   }, [make]);
 // TODO: FIX padding for input fields and submit
   return (
-
         <form onSubmit={() => {}} className="form">
           <InputField
             id="name"
@@ -112,7 +113,7 @@ function Modal() {
             dataType="vehicleYear"
             placeholder="Year"
             dropDownOptions={years}
-            onChange={handleYearChange}
+            onChange={(c) => {setYear(c)}}
           />
           {year && (<InputField
             id="name"
@@ -120,7 +121,7 @@ function Modal() {
             dataType="vehicleMake"
             placeholder="Make"
             dropDownOptions={makeList}
-            onChange={handleMakeChange}
+            onChange={(c) => {setMake(c)}}
           />)}
           {make && (<InputField
             id="name"
@@ -128,9 +129,9 @@ function Modal() {
             dataType="vehicleModel"
             placeholder="Model"
             dropDownOptions={modelList}
-            onChange={handleModelChange}
+            onChange={(c) => {setModel(c)}}
           />)}
-          {model && (<button className="animation a6">
+          {model && (<button className="animation a6" onClick={submit}>
             Submit
           </button>)}
         </form>

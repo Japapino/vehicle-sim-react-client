@@ -2,16 +2,6 @@ import React, { useEffect, useState } from "react";
 import InputField from "./InputField";
 import axios from "axios";
 
-interface MakeResponse {
-  vehicle_make: string; 
-}
-
-interface ModelResponse {
-  vehicles: [
-    {vehicle_model: string }
-  ]
-}
-
 function Modal() {
   const [year, setYear] = useState("");
   const [make, setMake] = useState("");
@@ -21,24 +11,15 @@ function Modal() {
 
   const years = Array.from({ length: 33 }, (_, i) => (1992 + i).toString());
 
-  const convertMakeResponse = (resp: MakeResponse[]): string[] => {
-    let result: string[] = [];
+  const validateResponse = (resp: string[]): string[] => {
+    if (!Array.isArray(resp)) {
+      console.error("Invalid response format: expected an array");
+      return [];
+    }
 
-    resp.forEach((i) => {
-      result.push(i.vehicle_make);
-    });
-
-    return result;
-  };
-
-  const convertModelResponse = (resp: ModelResponse[]): string[] => {
-    let result: string[] = [];
-
-    resp.vehicles.forEach((i) => {
-      result.push(i.vehicle_model);
-    });
-
-    return result;
+    return resp
+    .filter((item) => item && typeof item === "string")
+    .map((item) => item);;
   };
 
   async function getMakes(year) {
@@ -50,7 +31,7 @@ function Modal() {
           },
         })
         .then((response) => {
-          const makesArray: string[] = convertMakeResponse(response.data);
+          const makesArray: string[] = validateResponse(response.data);
           setMakeList(makesArray);
         });
     } catch (error) {
@@ -67,7 +48,7 @@ function Modal() {
           },
         })
         .then((response) => {
-          const modelsArray: string[] = convertModelResponse(response.data);
+          const modelsArray: string[] = validateResponse(response.data);
           setModelList(modelsArray);
         });
     } catch (error) {

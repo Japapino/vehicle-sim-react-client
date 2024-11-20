@@ -29,7 +29,6 @@ const InputField: React.FC<InputFieldProps> = ({id, className, dataType, placeho
           id={id}
           value={vehicleProp}
           placeholder= {placeholder ?? "Select"}
-          label={dataType}
           onChange={handlePropChange}
         >
           {dropDownOptions.map((option) => (

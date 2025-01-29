@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "commonjs",
+      "jsx": "react",
+      "baseUrl": "./src",
+      "checkJs": true,
+      "allowImportingTsExtensions": true,
+      "noEmit": true,
+      "esModuleInterop": true, 
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+      "noFallthroughCasesInSwitch": true,
+      "paths": {
+        "@components/*": ["components/*"],
+        "@utils/*": ["utils/*"]
+      }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
+  }

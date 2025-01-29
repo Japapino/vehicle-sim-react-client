@@ -3,9 +3,9 @@ import InputField from "./InputField";
 import axios from "axios";
 
 function Modal() {
-  const [year, setYear] = useState("");
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
+  const [year, setYear] = useState<string>("");
+  const [make, setMake] = useState<string>("");
+  const [model, setModel] = useState<string>("");
   const [makeList, setMakeList] = useState<string[]>([]);
   const [modelList, setModelList] = useState<string[]>([]);
 
@@ -19,10 +19,10 @@ function Modal() {
 
     return resp
     .filter((item) => item && typeof item === "string")
-    .map((item) => item);;
+    .map((item) => item);
   };
 
-  async function getMakes(year) {
+  async function getMakes(year: string) {
     try {
       await axios
         .get(`http://localhost:3000/vehicles/${year}`, {
@@ -39,7 +39,7 @@ function Modal() {
     }
   }
 
-  async function getModels(year, make) {
+  async function getModels(year: string, make: string) {
     try {
       await axios
         .get(`http://localhost:3000/vehicles/${year}/${make}`, {
@@ -85,7 +85,7 @@ function Modal() {
       getModels(year, make);
     }
   }, [make]);
-// TODO: FIX padding for input fields and submit
+  // TODO: FIX padding for input fields and submit
   return (
         <form onSubmit={() => {}} className="form">
           <InputField
@@ -112,7 +112,7 @@ function Modal() {
             dropDownOptions={modelList}
             onChange={(c) => {setModel(c)}}
           />)}
-          {model && (<button className="animation a6" onClick={submit}>
+          {model ?? (<button className="animation a6" onClick={submit}>
             Submit
           </button>)}
         </form>

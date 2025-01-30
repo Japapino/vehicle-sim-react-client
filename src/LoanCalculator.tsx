@@ -1,11 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import useLoanStore from "./store.ts";
 
-function LoanCalculator() {
-  const [principal, setPrincipal] = useState<number>(0);
-  const [rate, setRate] = useState<number>(0);
-  const [time, setTime] = useState<number>(0);
-  const [emi, setEmi] = useState<number>(0);
-  const [formComplete, setFormComplete] = useState<boolean>(false);
+const LoanCalculator = () => {
+  const {
+    principal,
+    rate,
+    time,
+    emi,
+    formComplete,
+    setPrincipal,
+    setRate,
+    setTime,
+    setEmi,
+    setFormComplete,
+  } = useLoanStore();
+
+  useEffect(() => {
+    if (principal > 0 && rate > 0 && time > 0) setFormComplete(true);
+  }, [principal, rate, time]);
 
   const calculateEMI = () => {
     const monthlyRate = rate / 12 / 100;
@@ -15,14 +27,6 @@ function LoanCalculator() {
     setEmi(Number(emi.toFixed(2)));
   };
 
-  useEffect(() => {
-    if (principal > 0 && rate > 0 && time > 0) setFormComplete(true);
-  }, [principal, rate, time]);
-
-  console.log(formComplete);
-
-  // TODO: styling
-  // TODO: add real time updating
   return (
     <div className="loan-calculator">
       <h2>Loan Calculator</h2>
@@ -56,8 +60,9 @@ function LoanCalculator() {
           />
         </div>
       </div>
-
-      {formComplete && <button onClick={calculateEMI}>Calculate EMI</button>}
+      <div>
+        {formComplete && <button onClick={calculateEMI}>Calculate EMI</button>}
+      </div>
       {emi > 0 && (
         <div>
           <h3>Estimated Monthly Installment (EMI): {emi}</h3>
@@ -65,6 +70,6 @@ function LoanCalculator() {
       )}
     </div>
   );
-}
+};
 
 export default LoanCalculator;

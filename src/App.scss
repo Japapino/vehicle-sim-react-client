@@ -24,6 +24,12 @@ body {
   animation-delay: 1s;
 }
 
+#nav-bar {
+  display: flex;
+  flex-direction: column;
+  margin: 1rm;
+}
+
 .right {
   flex: 1;
   background-color: black;
@@ -72,9 +78,9 @@ body {
   margin-top: 20px;
 }
 
-// .form-field:focus {
-//   border-color: #0f7ef1;
-// }
+.form-field:focus {
+  border-color: #0f7ef1;
+}
 
 .form > button {
   padding: 12px 10px;

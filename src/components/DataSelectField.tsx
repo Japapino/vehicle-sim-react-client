@@ -1,8 +1,8 @@
 import { Select, MenuItem } from "@mui/material";
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-interface InputFieldProps {
+interface DataSelectProps {
   id: string;
   className: string; 
   dataType: string;
@@ -11,7 +11,7 @@ interface InputFieldProps {
   onChange: (value: string) => void;
 }
 
-const InputField: React.FC<InputFieldProps> = ({id, className, dataType, placeholder, dropDownOptions, onChange }) => {
+const DataSelectField: React.FC<DataSelectProps> = ({id, className, dataType, placeholder, dropDownOptions, onChange }) => {
   const [vehicleProp, setVehicleProp] = useState("");
 
   const handlePropChange = (e) => {
@@ -43,4 +43,4 @@ const InputField: React.FC<InputFieldProps> = ({id, className, dataType, placeho
   );
 };
 
-export default InputField;
+export default DataSelectField;

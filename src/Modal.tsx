@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import InputField from "./InputField";
+import DataSelectField from "./components/DataSelectField";
 import axios from "axios";
 
 function Modal() {
@@ -18,8 +18,8 @@ function Modal() {
     }
 
     return resp
-    .filter((item) => item && typeof item === "string")
-    .map((item) => item);
+      .filter((item) => item && typeof item === "string")
+      .map((item) => item);
   };
 
   async function getMakes(year: string) {
@@ -67,7 +67,7 @@ function Modal() {
           },
         })
         .then((response) => {
-          console.log('response: ', response); 
+          console.log("response: ", response);
         });
     } catch (error) {
       console.error("Error fetching vehicle estimate:", error);
@@ -85,38 +85,62 @@ function Modal() {
       getModels(year, make);
     }
   }, [make]);
+  
   // TODO: FIX padding for input fields and submit
+  // TODO: Fix Puppeteer and set vehicle value as principal
+
   return (
-        <form onSubmit={() => {}} className="form">
-          <InputField
-            id="name"
-            className="form-field animation a3"
-            dataType="vehicleYear"
-            placeholder="Year"
-            dropDownOptions={years}
-            onChange={(c) => {setYear(c)}}
-          />
-          {year && (<InputField
+    <>
+      <div className="header">
+        <h2 className="animation a1">
+          Welcome to the Vehicle Payment Calculator
+        </h2>
+      </div>
+      <h4 className="animation a2">
+        Let&apos;s start by entering the year of your vehicle.
+      </h4>
+      <form onSubmit={() => {}} className="form">
+        <DataSelectField
+          id="name"
+          className="form-field animation a3"
+          dataType="vehicleYear"
+          placeholder="Year"
+          dropDownOptions={years}
+          onChange={(c) => {
+            setYear(c);
+          }}
+        />
+        {year && (
+          <DataSelectField
             id="name"
             className="form-field animation a2"
             dataType="vehicleMake"
             placeholder="Make"
             dropDownOptions={makeList}
-            onChange={(c) => {setMake(c)}}
-          />)}
-          {make && (<InputField
+            onChange={(c) => {
+              setMake(c);
+            }}
+          />
+        )}
+        {make && (
+          <DataSelectField
             id="name"
             className="form-field animation a3"
             dataType="vehicleModel"
             placeholder="Model"
             dropDownOptions={modelList}
-            onChange={(c) => {setModel(c)}}
-          />)}
-          {model ?? (<button className="animation a6" onClick={submit}>
+            onChange={(c) => {
+              setModel(c);
+            }}
+          />
+        )}
+        {model ?? (
+          <button className="animation a6" onClick={submit}>
             Submit
-          </button>)}
-        </form>
-
+          </button>
+        )}
+      </form>
+    </>
   );
 }
 

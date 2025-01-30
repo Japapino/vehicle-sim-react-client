@@ -14,14 +14,6 @@ function App() {
           <Link to="/sim">Loan Calculator</Link>
         </nav>
         <div className="left">
-          <div className="header">
-            <h2 className="animation a1">
-              Welcome to the Vehicle Price Calculator
-            </h2>
-            <h4 className="animation a2">
-              Let&apos;s start by entering the year of your vehicle.
-            </h4>
-          </div>
           <Routes>
             <Route path="/" element={<Modal />} />
             <Route path="/sim" element={<LoanCalculator />} />

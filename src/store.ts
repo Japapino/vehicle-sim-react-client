@@ -6,6 +6,7 @@ type LoanState = {
   time: number;
   emi: number;
   formComplete: boolean;
+  downPayment: number;
   setPrincipal: (value: number) => void;
   setRate: (value: number) => void;
   setTime: (value: number) => void;
@@ -15,10 +16,11 @@ type LoanState = {
 
 type Actions = {
   setPrincipal: (principal: LoanState['principal']) => void
-  setRate: (principal: LoanState['rate']) => void
-  setTime: (principal: LoanState['time']) => void
-  setEmi: (principal: LoanState['emi']) => void
-  setFormComplete: (principal: LoanState['formComplete']) => void
+  setRate: (rate: LoanState['rate']) => void
+  setTime: (time: LoanState['time']) => void
+  setEmi: (emi: LoanState['emi']) => void
+  setDownPayment: (downPayment: LoanState['downPayment']) => void
+  setFormComplete: (formComplete: LoanState['formComplete']) => void
 }
 
 export const useLoanStore = create<LoanState & Actions >((set) => ({
@@ -27,9 +29,13 @@ export const useLoanStore = create<LoanState & Actions >((set) => ({
   time: 0,
   emi: 0,
   formComplete: false,
+  downPayment: 0,
   setPrincipal: (value: number) => {
     console.log('triggered')
     set(() => ({ principal: value }));
+  },
+  setDownPayment: async (value: number) => {
+    set(() => ({ downPayment: value }));
   },
   setRate: (value: number) => {
     set(() => ({ rate:value }));
@@ -39,10 +45,10 @@ export const useLoanStore = create<LoanState & Actions >((set) => ({
   },
   setEmi: async (value: number) => {
     await new Promise ((resolve) => setTimeout(resolve, 1000));
-    set((state) => ({ emi: value }));
+    set(() => ({ emi: value }));
   },
   setFormComplete:(value: boolean) => {
-    set((state) => ({ formComplete: value }));
+    set(() => ({ formComplete: value }));
   },
 }));
 

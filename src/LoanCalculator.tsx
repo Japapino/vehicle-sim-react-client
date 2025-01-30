@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import useLoanStore from "./store.ts";
+import "./style/LoanCalculator.scss";
 
 const LoanCalculator = () => {
   const {
@@ -30,39 +31,32 @@ const LoanCalculator = () => {
   return (
     <div className="loan-calculator">
       <h2>Loan Calculator</h2>
-      <div className="form-field animation a3">
-        <div className="input-container">
-          <p>Principal Amount:</p>
-          <input
-            type="number"
-            value={principal}
-            onChange={(e) => setPrincipal(Number(e.target.value))}
-          />
-        </div>
+
+      <div className="form-field animation a3 input-container">
+        <p>Principal Amount:</p>
+        <input
+          type="number"
+          value={principal || ""}
+          onChange={(e) => setPrincipal(Number(e.target.value))}
+        />
       </div>
-      <div className="form-field animation a2">
-        <div className="input-container">
-          <p>Annual Interest Rate (%):</p>
-          <input
-            type="number"
-            value={rate}
-            onChange={(e) => setRate(Number(e.target.value))}
-          />
-        </div>
+      <div className="form-field animation a3 input-container">
+        <p>Annual Interest Rate (%):</p>
+        <input
+          type="number"
+          value={rate || ""}
+          onChange={(e) => setRate(Number(e.target.value))}
+        />
       </div>
-      <div className="form-field animation a3">
-        <div className="input-container">
-          <p>Loan Tenure (months):</p>
-          <input
-            type="number"
-            value={time}
-            onChange={(e) => setTime(Number(e.target.value))}
-          />
-        </div>
+      <div className="form-field animation a3 input-container">
+        <p>Loan Tenure (months):</p>
+        <input
+          type="number"
+          value={time || ""}
+          onChange={(e) => setTime(Number(e.target.value))}
+        />
       </div>
-      <div>
-        {formComplete && <button onClick={calculateEMI}>Calculate EMI</button>}
-      </div>
+      {formComplete && <button onClick={calculateEMI}>Calculate EMI</button>}
       {emi > 0 && (
         <div>
           <h3>Estimated Monthly Installment (EMI): {emi}</h3>

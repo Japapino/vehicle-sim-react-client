@@ -13,7 +13,7 @@ type LoanState = {
   setFormComplete: (value: boolean) => void;
 };
 
-type Action = {
+type Actions = {
   setPrincipal: (principal: LoanState['principal']) => void
   setRate: (principal: LoanState['rate']) => void
   setTime: (principal: LoanState['time']) => void
@@ -21,7 +21,7 @@ type Action = {
   setFormComplete: (principal: LoanState['formComplete']) => void
 }
 
-export const useLoanStore = create<LoanState & Action >((set) => ({
+export const useLoanStore = create<LoanState & Actions >((set) => ({
   principal: 0,
   rate: 0,
   time: 0,

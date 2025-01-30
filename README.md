@@ -6,6 +6,7 @@ This project is a front-end application built with [Vite](https://vitejs.dev/), 
 
 - ⚡ **Vite** - Fast, optimized bundling and development.
 - ⚛️ **React** - Efficient UI building.
+- 🐻 **Zustand** - Simplified state management.
 - 🟦 **TypeScript** - Ensures type-safe JavaScript.
 - 💅 **SCSS** - Built-in support for SCSS for styling.
 
